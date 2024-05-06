@@ -5,6 +5,7 @@ const session = require("express-session")
 const MongoStore = require("connect-mongo")
 const connectDB = require("./config/database")
 const logger = require("morgan")
+const flash = require("express-flash")
 const mainRoutes = require("./routes/main")
 
 const PORT = 2121
@@ -30,6 +31,8 @@ app.use(
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(flash())
 
 app.use("/", mainRoutes)
 

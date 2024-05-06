@@ -9,8 +9,16 @@
     <nav>
       <a href="/">Home</a>
       <a href="/login">Login</a>
-      <a href="/signup">/signup</a>
+      <a href="/signup">signup</a>
     </nav>
+
+    <div>
+      <% if (locals.messages.errors) { %>
+        <% messages.errors.forEach( el => { %>
+          <div><%= el.msg %></div>
+        <% }) %>
+      <% } %>
+    </div>
 
     <form action="/signup" method="post">
       <h1>Sign up</h1>

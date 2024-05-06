@@ -9,11 +9,25 @@
     <nav>
       <a href="/">Home</a>
       <a href="/login">Login</a>
-      <a href="/signup">/signup</a>
+      <a href="/signup">signup</a>
     </nav>
 
+    <div>
+      <% if (locals.messages.errors) { %>
+        <% messages.errors.forEach( el => { %>
+          <div><%= el.msg %></div>
+        <% }) %>
+      <% } %>
+
+      <% if (locals.messages.info) { %>
+        <% messages.info.forEach(el => { %>
+          <div><%= el.msg %></div>
+       <% }) %>
+      <% } %>
+    </div>
+
     <form action="/login" method="post">
-      <h1>Login</h1>
+      <h1><%= title %></h1>
       <input type="email" name="email" placeholder="Email">
       <input type="password" name="password" placeholder="Password">
       <button>Log in</button>
