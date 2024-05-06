@@ -1,10 +1,11 @@
 const passport = require("passport")
 const validator = require("validator")
 const User = require("../models/User")
+const Habit = require("../models/Habit")
 
 exports.getLogin = (req, res) => {
     if (req.user) {
-      return res.redirect("/home")
+      return res.redirect("/dashboard")
     }
 
     res.render('login', {
@@ -33,14 +34,14 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err) }
       req.flash('success', { msg: 'Success! You are logged in.' })
-      res.redirect(req.session.returnTo || '/home')
+      res.redirect(req.session.returnTo || '/dashboard')
     })
   })(req, res, next)
 }
 
 exports.getSignup = (req, res) => {
   if (req.user) {
-    return res.redirect("/home")
+    return res.redirect("/dashboard")
   }
   res.render("signup", {
     title: "Create Account"
@@ -85,7 +86,7 @@ exports.postSignup = async (req, res, next) => {
         return next(err)
       }
 
-      res.redirect("/home")
+      res.redirect("/dashboard")
     })
   } catch (err) {
     return next(err)
@@ -103,13 +104,19 @@ exports.logout = (req, res) => {
   })
 }
 
-exports.getHome = (req, res) => {
-  if (req.user) {
-    console.log(req.user)
-    return res.render("home.ejs", { user: req.user});
-  } else {
-    // If user is not authenticated, you might want to handle this case differently
-    // For example, redirecting to a login page or displaying an error message.
-    return res.redirect("/login"); // Example redirect to login page
+exports.getDashboard = async (req, res) => {
+  try {
+    if (req.user) {
+      console.log(req.user)
+      const habits = await Habit.find({ userId: req.user._id })
+      return res.render("dashboard.ejs", { user: req.user, habits: habits });
+    } else {
+      // If user is not authenticated, you might want to handle this case differently
+      // For example, redirecting to a login page or displaying an error message.
+      return res.redirect("/login"); // Example redirect to login page
+    }
+  } catch (err) {
+    console.error("Error retrieving habits:", err);
+    return res.status(500).send("Internal Server Error")
   }
 }

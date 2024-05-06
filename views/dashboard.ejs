@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome, <%= user.userName %></h1>
+      <a href="/logout">Logout</a>
+    </header>
+
+    <h1>HomePage</h1>
+
+    <form action="/habit/addHabit" method="POST">
+      <input type="text" name="name">
+      <button>Add</button>
+    </form>
+
+    <div>
+      <h1>Current Habits:-</h1>
+      <div>
+        <ol>
+          <% for (let i = 0; i < habits.length; i++) { %>
+            <li><a href="habit/<%= habits[i]._id %>"><%= habits[i].name %></a></li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

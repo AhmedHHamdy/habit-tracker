@@ -7,6 +7,7 @@ const connectDB = require("./config/database")
 const logger = require("morgan")
 const flash = require("express-flash")
 const mainRoutes = require("./routes/main")
+const habitRoutes = require("./routes/habits")
 
 const PORT = 2121
 
@@ -35,6 +36,7 @@ app.use(passport.session())
 app.use(flash())
 
 app.use("/", mainRoutes)
+app.use("/habit", habitRoutes)
 
 connectDB().then(() => app.listen(PORT, () => {
   console.log("Server is running, you better catch it")
