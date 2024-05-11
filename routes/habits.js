@@ -5,5 +5,6 @@ const { ensureAuth } = require("../middleware/auth")
 
 router.get("/:id", ensureAuth, habitController.getHabit)
 router.post("/addHabit", habitController.postHabit)
+router.post("/commitDay", habitController.postDay)
 
 module.exports = router

@@ -5,12 +5,8 @@ const HabitSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
-  date: {
-    type: String
-  },
   userId: {
     type: String,
-    unique: true
   }
 })
 

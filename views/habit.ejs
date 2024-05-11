@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <header>
@@ -13,16 +14,98 @@
 
     <h1>Habit Page</h1>
 
-    <!-- <form action="/habit/addHabit" method="POST">
-      <input type="text" name="name">
+    <form action="/habit/commitDay" method="POST">
+      <input type="date" name="date" id="datePicker" />
+      <input type="hidden" name="id" value="<%= habitId %>">
       <button>Add</button>
-    </form> -->
+    </form>
 
     <div>
       <h1>Current Habit:-</h1>
       <div>
-          <h2><%= habit[0].name %></h2></li>
+        <h2><%= habit[0].name %></h2>
       </div>
     </div>
+
+    <h2>Total Tracking days <%= habitDetails.length %></h2>
+    <h2>Largest Streak <%= largestStreak %></h2>
+
+    <div class="graph">
+      <ul class="months">
+        <li class="tooltip">Jan<span class="tooltiptext">January</span></li>
+        <li class="tooltip">Feb<span class="tooltiptext">February</span></li>
+        <li class="tooltip">Mar<span class="tooltiptext">March</span></li>
+        <li class="tooltip">Apr<span class="tooltiptext">April</span></li>
+        <li class="tooltip">May<span class="tooltiptext">May</span></li>
+        <li class="tooltip">Jun<span class="tooltiptext">June</span></li>
+        <li class="tooltip">Jul<span class="tooltiptext">July</span></li>
+        <li class="tooltip">Aug<span class="tooltiptext">August</span></li>
+        <li class="tooltip">Sep<span class="tooltiptext">September</span></li>
+        <li class="tooltip">Oct<span class="tooltiptext">October</span></li>
+        <li class="tooltip">Nov<span class="tooltiptext">November</span></li>
+        <li class="tooltip">Dec<span class="tooltiptext">December</span></li>
+      </ul>
+      <ul class="days">
+        <li class="tooltip">Sun<span class="tooltiptext">Sunday</span></li>
+        <li class="tooltip">Mon<span class="tooltiptext">Monday</span></li>
+        <li class="tooltip">Tue<span class="tooltiptext">Tuesday</span></li>
+        <li class="tooltip">Wed<span class="tooltiptext">Wednesday</span></li>
+        <li class="tooltip">Thu<span class="tooltiptext">Thursday</span></li>
+        <li class="tooltip">Fri<span class="tooltiptext">Friday</span></li>
+        <li class="tooltip">Sat<span class="tooltiptext">Saturday</span></li>
+      </ul>
+      <ul class="squares">
+        <!-- added via javascript -->
+        <div class="month-container">
+
+
+          <ul>
+            <% 
+              const startDate = new Date(new Date().getFullYear(), 0, 1); // January 1, year
+              for (let i = 0; i < 366; i++) { 
+                const currentDate = new Date(startDate);
+                currentDate.setDate(startDate.getDate() + i); // Incrementing date by i
+
+                const dateArr = currentDate.toLocaleDateString('en-US').split("/")
+                const month = dateArr[0].length == 1 ? "0" + dateArr[0] : dateArr[0]
+                const day = dateArr[1].length == 1 ? "0" + dateArr[1] : dateArr[1]
+                const date = dateArr[dateArr.length - 1] + "-" + month + "-" + day
+
+                const isCompleted = habitDetails.some(habit => habit.date == date)
+            %>
+                <li class="<%= isCompleted ? 'completed' : '' %> tooltip"> 
+                  <span class="tooltiptext"><%= currentDate.toDateString() %></span>
+                </li>
+            <% } %>
+          </ul>
+          
+        </div>
+      </ul>
+    </div>
+
+    <script>
+      // Add squares
+
+      // const squares = document.querySelector(".squares");
+      // for (let i = 1; i <= 366; i++) {
+      //   const currentDate = new Date(new Date().getFullYear(), 0); // January 1st of the current year
+      //   currentDate.setDate(i); // Set the date to the current iteration
+      //   const dayOfMonth = currentDate.getDate(); // Get the day of the month
+      //   const month = currentDate.toLocaleString("default", { month: "short" }); // Get the month abbreviation
+
+      //   squares.insertAdjacentHTML(
+      //     "beforeend",
+      //     `<li class="completed tooltip"> 
+         
+      //       <span class="tooltiptext">${currentDate.toLocaleDateString()}</span>
+      //   </li>`
+      //   );
+      // }
+
+      const today = new Date()
+      const formatedDate = today.toISOString().split('T')[0]
+      console.log(formatedDate)
+      document.getElementById("datePicker").setAttribute("min", formatedDate)
+    </script>
   </body>
 </html>
