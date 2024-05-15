@@ -77,7 +77,18 @@ module.exports = {
 
 
     try {
-      const habit = await  Habit.findById({ _id: req.body.id})
+      const habit = await Habit.findById({ _id: req.body.id})
+
+      // Find habit details by date and habitId
+      const habitDetailData = await HabitDetail.findOne({ 
+        date: req.body.date,
+        habitId: req.body.id 
+      });
+
+      if (habitDetailData) {
+        req.flash("errors", { msg: "Date is already been committed"})
+        return res.redirect(`/habit/${req.body.id}`)
+      }
 
       console.log(req.body)
 

@@ -30,6 +30,15 @@
     <h2>Total Tracking days <%= habitDetails.length %></h2>
     <h2>Largest Streak <%= largestStreak %></h2>
 
+
+    <div>
+      <% if (locals.messages.errors) { %>
+        <% messages.errors.forEach(el => { %>
+          <h2><%= el.msg %></h2>
+        <% }) %>
+      <% } %>
+    </div>
+
     <div class="graph">
       <ul class="months">
         <li class="tooltip">Jan<span class="tooltiptext">January</span></li>
@@ -84,24 +93,6 @@
     </div>
 
     <script>
-      // Add squares
-
-      // const squares = document.querySelector(".squares");
-      // for (let i = 1; i <= 366; i++) {
-      //   const currentDate = new Date(new Date().getFullYear(), 0); // January 1st of the current year
-      //   currentDate.setDate(i); // Set the date to the current iteration
-      //   const dayOfMonth = currentDate.getDate(); // Get the day of the month
-      //   const month = currentDate.toLocaleString("default", { month: "short" }); // Get the month abbreviation
-
-      //   squares.insertAdjacentHTML(
-      //     "beforeend",
-      //     `<li class="completed tooltip"> 
-         
-      //       <span class="tooltiptext">${currentDate.toLocaleDateString()}</span>
-      //   </li>`
-      //   );
-      // }
-
       const today = new Date()
       const formatedDate = today.toISOString().split('T')[0]
       console.log(formatedDate)
